@@ -1,0 +1,26 @@
+extends: default.liquid
+title: "Calculate the SHA1 hash of input"
+---
+
+
+<div class="form">
+  <input type="text" name="input" id="input">
+</div>
+<span>Digest:</span>
+<span id="output"></span>
+
+<p><a href="/">Back</a></p>
+
+
+<script src="sha1.js"></script>
+<script>
+  window.Sha1 = {
+    digest: cwrap('digest', 'string', ['string'])
+  }
+
+  var input = document.getElementById("input");
+  var output = document.getElementById("output");
+  input.addEventListener("keyup", function(e) {
+    output.innerText = Sha1.digest(input.value);
+  });
+</script>
