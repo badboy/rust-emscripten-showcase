@@ -1,0 +1,61 @@
+extends: default.liquid
+title: "Rhai - a scripting language, running in the browser"
+---
+
+<p>
+    Rhai is an embedded scripting language for Rust that gives you a safe and easy way to add scripting to your applications.
+    When compiled to <strong>WebAssembly</strong> it can run in the browser.
+</p>
+<p>Original by <a href="https://github.com/jonathandturner/">Jonathan Turner</a>. See <a href="https://github.com/jonathandturner/rhai">Rhai repository</a>.</p>
+
+<p>The running application will print whatever the last result is. You can call <code>tostr</code> to turn strings or booleans into a string.</p>
+
+<div id="editor">var answer = 2 * 21;
+
+"Hello World! The answer is " + tostr(answer) + "!"</div>
+
+<button id="run">Run</button>
+
+<h2 class="output">Output:</h2>
+<pre id="output"></pre>
+
+<p><a href="/">Back</a></p>
+
+<script type="text/javascript" src="ace.js"></script>
+<script type="text/javascript" src="keymaster.js"></script>
+<script type='text/javascript'>
+  var loaded = false;
+  var Module = {};
+
+  fetch('wrapper.wasm').then(response =>
+      response.arrayBuffer()
+      ).then(buffer => {
+
+    Module.wasmBinary = buffer;
+
+    var script = document.createElement('script');
+    script.src = "wrapper.js";
+    script.onload = function() {
+      window.Rhai = {
+        eval: cwrap('eval', 'string', ['string'])
+      };
+      loaded = true;
+    }
+    document.body.appendChild(script);
+  });
+
+  var run_code = function(e) {
+    if (loaded) {
+      var code = editor.getValue();
+      var result = Rhai.eval(code);
+      output.innerText = result;
+    }
+  };
+
+  var editor = ace.edit('editor');
+
+  var output = document.getElementById("output");
+  var run = document.getElementById("run");
+  run.addEventListener("click", run_code);
+  key('ctrl+enter', run_code);
+</script>
