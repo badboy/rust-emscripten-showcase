@@ -1,6 +1,6 @@
 name: "Rust & Emscripten Showcase"
 source: "./"
-dest: "build"
+dest: "_site"
 ignore:
   - .git/*
-  - build/*
+  - _site/*
