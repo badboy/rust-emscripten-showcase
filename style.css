@@ -18,20 +18,29 @@ span {
 }
 h2.output { margin-top: 20px; }
 #editor {
-    border: 1px solid black;
-    margin-bottom: 5px;
-    height: 200px;
-    width: 100%;
+  border: 1px solid black;
+  margin-bottom: 5px;
+  height: 200px;
+  width: 100%;
 }
 #output {
-    border: 1px solid black;
-    margin-bottom: 5px;
-    height: 200px;
-    width: 100%;
+  border: 1px solid black;
+  margin-bottom: 5px;
+  height: 200px;
+  width: 100%;
 }
 button {
-    width: 100px;
-    height: 50px;
-    font-size: 2em;
-    font-weight: bold;
+  width: 100px;
+  height: 50px;
+  font-size: 2em;
+  font-weight: bold;
+}
+#no-wasm-warning {
+  background-color: #e7a7a7;
+  padding: 5px;
+  margin-bottom: 20px;
+  display: none;
+}
+#no-wasm-warning a {
+  color: black;
 }

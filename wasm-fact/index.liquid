@@ -1,0 +1,109 @@
+extends: default.liquid
+title: "Factorial in WebAssembly"
+---
+
+<div id="no-wasm-warning">
+    <p>
+        It seems your browser can't handle WebAssembly at the moment. The example below will not work.
+        <br>
+        If you have a recent Firefox or Chrome browser, you can enable it.
+    </p>
+    <h3>For Chrome</h3>
+    <p>Go to <a href="chrome://flags/#enable-webassembly">chrome://flags/#enable-webassembly</a> and enable WebAssembly.</p>
+    <h3>For Firefox</h3>
+    <p>Go to <a href="about:config">about:config</a>, search for <code>javascript.options.wasm</code> and set it to <code>true</code>.</p>
+</div>
+
+<div class="form">
+    <input type="text" name="fact-input" id="fact-input" value="5">
+</div>
+<span id="number-out">fact(5) = </span>
+<span id="fact-output"></span>
+
+<h2>Rust Code</h2>
+<pre><code>#[no_mangle]
+pub fn fact(mut n: i32) -> i32 {
+    let mut result = 1;
+    while n > 0 {
+        result = result * n;
+        n = n - 1;
+    }
+    result
+}</code></pre>
+
+<h2>Wasm Code</h2>
+<pre><code>(func $fact (type $rustfn-0-2) (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (set_local $2
+    (i32.load
+      (i32.const 0)
+    )
+  )
+  (set_local $1
+    (i32.const 1)
+  )
+  (loop $shape$2$break $shape$2$continue
+    (br_if $shape$2$break
+      (i32.le_s
+        (get_local $0)
+        (i32.const 0)
+      )
+    )
+    (set_local $1
+      (i32.mul
+        (get_local $1)
+        (get_local $0)
+      )
+    )
+    (set_local $0
+      (i32.sub
+        (get_local $0)
+        (i32.const 1)
+      )
+    )
+    (br $shape$2$continue)
+  )
+  (i32.store
+    (i32.const 0)
+    (get_local $2)
+  )
+  (get_local $1)
+)</code></pre>
+
+<p><a href="/">Back</a></p>
+
+<script type='text/javascript'>
+  var loaded = false;
+  var instance;
+  var input = document.getElementById("fact-input");
+  var output = document.getElementById("fact-output");
+  var number_out = document.getElementById("number-out");
+
+  if (typeof Wasm === "undefined") {
+    document.getElementById("no-wasm-warning").style.display = "block";
+  } else {
+    fetch('fact.wasm').then(response =>
+        response.arrayBuffer()
+        ).then(buffer => {
+      let codeBytes = new Uint8Array(buffer);
+      instance = Wasm.instantiateModule(codeBytes);
+      window.instance = instance;
+      output.innerText = instance.exports.fact(5);
+    });
+
+    input.addEventListener("keyup", function(e) {
+      let value = input.value | 0;
+      number_out.innerText = "fact("+value+") = ";
+      if (value < 0) {
+        output.innerText = "[Value too small.]"
+          return;
+      }
+      if (value > 19) {
+        output.innerText = "[Value too big.]"
+          return;
+      }
+      output.innerText = instance.exports.fact(value);
+    });
+  }
+</script>
