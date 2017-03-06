@@ -16,3 +16,22 @@ div.form {
 span {
   font-size: 3em;
 }
+h2.output { margin-top: 20px; }
+#editor {
+    border: 1px solid black;
+    margin-bottom: 5px;
+    height: 200px;
+    width: 100%;
+}
+#output {
+    border: 1px solid black;
+    margin-bottom: 5px;
+    height: 200px;
+    width: 100%;
+}
+button {
+    width: 100px;
+    height: 50px;
+    font-size: 2em;
+    font-weight: bold;
+}
