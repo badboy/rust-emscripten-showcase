@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Call into JavaScript - Compiling Rust to your Browser</title>
+    <link rel="stylesheet" href="../hack.css">
+    <style>
+* { line-height: 1.5em; }
+h1 { font-size: 2em !important; }
+h2 { font-size: 2em !important; }
+ul, ol { 
+  font-size: 2em;
+}
+.hack li {
+  padding-left: 30px;
+}
+footer { border-top: 1px solid #ccc; }
+footer div { margin: 5px 0px; }
+.resources { font-size: 1.5em; }
+    </style>
+  </head>
+  <body class="hack">
+    <div class="container">
+        <h1>Call into JavaScript</h1>
+
+<h2 id="code">Code:</h2>
+<div class="sourceCode"><pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">use</span> std::os::raw::<span class="dt">c_char</span>;
+
+<span class="kw">extern</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> emscripten_asm_const(s: *<span class="kw">const</span> <span class="dt">c_char</span>);
+}
+
+<span class="kw">fn</span> main() {
+    <span class="kw">let</span> code : &amp;<span class="ot">&#39;static</span> [<span class="dt">u8</span>] = b<span class="st">&quot;console.log(&#39;Hello Rust!&#39;);</span><span class="sc">\</span><span class="er">0</span><span class="st">&quot;</span>;
+
+    <span class="kw">unsafe</span> {
+        emscripten_asm_const(&amp;code[<span class="dv">0</span>] <span class="kw">as</span> *<span class="kw">const</span> <span class="dt">c_char</span>);
+    }
+}</code></pre></div>
+<h2 id="compile">Compile</h2>
+<pre><code>rustc --target asmjs-unknown-emscripten call-javascript.rs</code></pre>
+<h2 id="run">Run</h2>
+<pre><code>$ node call-javascript.js
+Hello Rust!</code></pre>
+
+        <p><a href="../">Go back to the overview</a></p>
+        <footer> 
+          <div>
+            made by <a href="https://fnordig.de/">badboy_</a>, this is not an official <a href="https://www.rust-lang.org/">Rust</a> project.
+          </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

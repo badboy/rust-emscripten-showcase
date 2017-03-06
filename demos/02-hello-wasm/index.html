@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello World (Wasm) - Compiling Rust to your Browser</title>
+    <link rel="stylesheet" href="../hack.css">
+    <style>
+* { line-height: 1.5em; }
+h1 { font-size: 2em !important; }
+h2 { font-size: 2em !important; }
+ul, ol { 
+  font-size: 2em;
+}
+.hack li {
+  padding-left: 30px;
+}
+footer { border-top: 1px solid #ccc; }
+footer div { margin: 5px 0px; }
+.resources { font-size: 1.5em; }
+    </style>
+  </head>
+  <body class="hack">
+    <div class="container">
+        <h1>Hello World (Wasm)</h1>
+
+<h2 id="code">Code:</h2>
+<div class="sourceCode"><pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">fn</span> main() {
+    <span class="pp">println!</span>(<span class="st">&quot;Hello Rust!&quot;</span>);
+}</code></pre></div>
+<h2 id="compile">Compile</h2>
+<pre><code>rustc --target wasm32-unknown-emscripten hello.rs</code></pre>
+<h2 id="run">Run</h2>
+<pre><code>$ node hello.js
+trying binaryen method: native-wasm
+no native wasm support detected
+trying binaryen method: interpret-binary
+binaryen method succeeded.
+Hello Rust!
+</code></pre>
+
+        <p><a href="../">Go back to the overview</a></p>
+        <footer> 
+          <div>
+            made by <a href="https://fnordig.de/">badboy_</a>, this is not an official <a href="https://www.rust-lang.org/">Rust</a> project.
+          </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

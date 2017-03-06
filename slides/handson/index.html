@@ -1,0 +1,241 @@
+<!DOCTYPE html
+<html>
+  <head>
+    <title>Hire me for the JS, keep me for the Rust</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="public/custom.css" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, less-space, title
+
+# Rust & Emscripten<br> Hands-on
+
+[![](media/rust-belt-rust.jpg)](http://www.rust-belt-rust.com/)
+
+### 2016-10-27
+### Jan-Erik Rediger — [@badboy_](https://twitter.com/badboy_)
+
+---
+class: center, middle
+
+## All info online:
+## [www.hellorust.com/emscripten](http://www.hellorust.com/emscripten)
+
+---
+class: big
+
+# Installation
+
+```shell
+rustup toolchain add nightly
+
+rustup target add \
+  asmjs-unknown-emscripten \
+  --toolchain nightly
+
+rustup target add \
+  wasm32-unknown-emscripten \
+  --toolchain nightly
+```
+
+---
+class: big
+
+# Install Emscripten
+
+```shell
+wget https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz
+
+tar -xvf emsdk-portable.tar.gz
+
+cd emsdk-portable
+
+./emsdk update
+
+./emsdk install sdk-incoming-64bit
+```
+
+.footnote[short link: http://bit.ly/1S3eQRS]
+---
+class: big
+
+# Compile Rust
+
+```shell
+rustc --target \
+  asmjs-unknown-emscripten \
+  hello.rs
+```
+
+```shell
+rustc --target \
+  wasm32-unknown-emscripten \
+  hello.rs
+```
+
+---
+class: big
+
+# Execute JavaScript & WebAssembly
+
+```shell
+$ node hello.js
+Hello Rust!
+
+$ node hello-wasm.js
+trying binaryen method: native-wasm
+no native wasm support detected
+trying binaryen method: interpret-binary
+binaryen method succeeded.
+Hello Rust!
+```
+
+---
+
+# Enable WebAssembly in Chrome
+
+1. Go to <chrome://flags/#enable-webassembly>
+2. Enable it
+3. Restart Chrome
+
+.footnote[Currently Emscripten-compiled WebAssembly is newer than Chrome supports]
+
+---
+
+# Enable WebAssembly in Firefox
+
+1. Go to <about:config>
+2. Search for `javascript.options.wasm`
+3. Enable it
+
+.footnote[Currently Emscripten-compiled WebAssembly is newer than Firefox supports]
+
+---
+
+# Rust-y JavaScript in the browser
+
+### [Embed into HTML Demo](http://www.hellorust.com/emscripten/demos/05-in-html/)
+
+```html
+<script src="hello-world.js"></script>
+```
+
+---
+
+# Rust-y WebAssembly in the browser
+
+### [Embed Wasm into HTML Demo (wrapped)](http://www.hellorust.com/emscripten/demos/06-wasm-in-html/)
+
+```javascript
+var Module = {};
+
+fetch('hello-world.wasm').then(response =>
+    response.arrayBuffer()
+    ).then(buffer => {
+
+  Module.wasmBinary = buffer;
+
+  var script = document.createElement('script');
+  script.src = "hello-world.js";
+  script.onload = function() {
+  document.body.appendChild(script);
+});
+```
+---
+
+# Rust-y WebAssembly in the browser (native)
+
+```javascript
+fetch('hello-world.wasm').then(response =>
+  response.arrayBuffer()
+).then(buffer => {
+
+  let codeBytes = new Uint8Array(buffer);
+  Wasm.instantiateModule(codeBytes);
+});
+```
+
+---
+
+# Interact with Rust functions
+
+### [Call from JavaScript Demo](http://www.hellorust.com/emscripten/demos/04-call-into-lib/)
+
+```rust
+#![feature(link_args)]
+
+#[link_args = "-s EXPORTED_FUNCTIONS=['_hello_world']"]
+extern {}
+
+#[no_mangle]
+pub fn hello_world() -> isize {
+    println!("Hello World!");
+
+    41 + 1
+}
+
+fn main() {
+    /* Intentionally left blank */
+}
+```
+
+---
+
+# Interact with Rust functions
+
+### [Call from JavaScript Demo](http://www.hellorust.com/emscripten/demos/04-call-into-lib/)
+
+```javascript
+var Module = require("./call-into-lib.js");
+
+var hello_world = Module.cwrap('hello_world', 'number', []);
+
+var result = hello_world();
+```
+
+---
+class: center, middle
+
+# [play.hellorust.com](http://play.hellorust.com/)
+
+---
+class: bugs
+
+# Open Bugs
+
+* [#36317: Initial webassembly support via LLVM](https://github.com/rust-lang/rust/issues/36317)
+* [#36899: Optimize emscripten targets with emcc](https://github.com/rust-lang/rust/issues/36899)
+* [#36900: Remove exception handling in panic mode](https://github.com/rust-lang/rust/issues/36900)
+* [#31622: Compiletest environment](https://github.com/rust-lang/rust/issues/31622)
+* [Emscripten#4542: Wasm tests in different directory](https://github.com/kripken/emscripten/issues/4542)
+
+---
+class: center, middle
+
+# [Demos](http://www.hellorust.com/emscripten/demos/)
+
+---
+class: center, middle
+
+# Let's get started - what do you want to build?
+
+---
+class: center, middle, title
+
+# Thank you!
+
+[![](media/rust-belt-rust.jpg)](http://www.rust-belt-rust.com/)
+
+### Jan-Erik Rediger — [@badboy_](https://twitter.com/badboy_)
+  </textarea>
+    <script src="public/remark.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+        highlightLanguage: "no-highlight"
+      });
+    </script>
+  </body>
+</html>

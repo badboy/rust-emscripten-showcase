@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Access the DOM - Compiling Rust to your Browser</title>
+    <link rel="stylesheet" href="../hack.css">
+    <style>
+* { line-height: 1.5em; }
+h1 { font-size: 2em !important; }
+h2 { font-size: 2em !important; }
+ul, ol { 
+  font-size: 2em;
+}
+.hack li {
+  padding-left: 30px;
+}
+footer { border-top: 1px solid #ccc; }
+footer div { margin: 5px 0px; }
+.resources { font-size: 1.5em; }
+    </style>
+  </head>
+  <body class="hack">
+    <div class="container">
+        <h1>Access the DOM</h1>
+
+<h2 id="code">Code:</h2>
+<p><code>main.rs</code>:</p>
+<div class="sourceCode"><pre class="sourceCode rust"><code class="sourceCode rust"><span class="kw">extern</span> <span class="kw">crate</span> webplatform;
+
+<span class="kw">fn</span> main() {
+    <span class="kw">let</span> document = webplatform::init();
+    <span class="kw">let</span> body = document.element_query(<span class="st">&quot;body&quot;</span>).unwrap();
+    body.html_set(<span class="st">&quot;&lt;h1&gt;HELLO FROM RUST&lt;/h1&gt; &lt;button&gt;CLICK ME&lt;/button&gt;&quot;</span>);
+    <span class="kw">let</span> button = document.element_query(<span class="st">&quot;button&quot;</span>).unwrap();
+    button.on(<span class="st">&quot;click&quot;</span>, |_| webplatform::alert(<span class="st">&quot;WITNESS ME&quot;</span>));
+}</code></pre></div>
+<p><code>Cargo.toml</code>:</p>
+<pre class="toml"><code>[package]
+name = &quot;app&quot;
+version = &quot;0.1.0&quot;
+
+[dependencies]
+webplatform = { git = &quot;https://github.com/tcr/rust-webplatform&quot; }</code></pre>
+<h2 id="compile">Compile</h2>
+<pre><code>cargo build --target asmjs-unknown-emscripten --release</code></pre>
+<h2 id="run">Run</h2>
+<p>See <a href="app.html"><code>app.html</code></a>.</p>
+
+        <p><a href="../">Go back to the overview</a></p>
+        <footer> 
+          <div>
+            made by <a href="https://fnordig.de/">badboy_</a>, this is not an official <a href="https://www.rust-lang.org/">Rust</a> project.
+          </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Call from JavaScript - Compiling Rust to your Browser</title>
+    <link rel="stylesheet" href="../hack.css">
+    <style>
+* { line-height: 1.5em; }
+h1 { font-size: 2em !important; }
+h2 { font-size: 2em !important; }
+ul, ol { 
+  font-size: 2em;
+}
+.hack li {
+  padding-left: 30px;
+}
+footer { border-top: 1px solid #ccc; }
+footer div { margin: 5px 0px; }
+.resources { font-size: 1.5em; }
+    </style>
+  </head>
+  <body class="hack">
+    <div class="container">
+        <h1>Call from JavaScript</h1>
+
+<h2 id="code">Code:</h2>
+<p><code>call-into-lib.rs</code>:</p>
+<div class="sourceCode"><pre class="sourceCode rust"><code class="sourceCode rust"><span class="at">#![</span>feature<span class="at">(</span>link_args<span class="at">)]</span>
+
+<span class="at">#[</span>link_args <span class="at">=</span> <span class="st">&quot;-s EXPORTED_FUNCTIONS=[&#39;_hello_world&#39;]&quot;</span><span class="at">]</span>
+<span class="kw">extern</span> {}
+
+<span class="at">#[</span>no_mangle<span class="at">]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> hello_world() -&gt; <span class="dt">isize</span> {
+    <span class="pp">println!</span>(<span class="st">&quot;Hello World!&quot;</span>);
+
+    <span class="dv">41</span> + <span class="dv">1</span>
+}
+
+<span class="kw">fn</span> main() {
+    <span class="co">/* Intentionally left blank */</span>
+}</code></pre></div>
+<p><code>wrapper.js</code>:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> Module <span class="op">=</span> <span class="at">require</span>(<span class="st">&quot;./call-into-lib.js&quot;</span>)<span class="op">;</span>
+
+<span class="kw">var</span> hello_world <span class="op">=</span> <span class="va">Module</span>.<span class="at">cwrap</span>(<span class="st">&#39;hello_world&#39;</span><span class="op">,</span> <span class="st">&#39;number&#39;</span><span class="op">,</span> [])<span class="op">;</span>
+
+<span class="kw">var</span> result <span class="op">=</span> <span class="at">hello_world</span>()<span class="op">;</span>
+<span class="va">console</span>.<span class="at">log</span>(<span class="st">&quot;result: &quot;</span><span class="op">,</span> result)<span class="op">;</span>
+
+
+<span class="va">console</span>.<span class="at">log</span>(<span class="st">&quot;&quot;</span>)<span class="op">;</span>
+<span class="va">Module</span>.<span class="at">ccall</span>(<span class="st">&#39;hello_world&#39;</span><span class="op">,</span> <span class="st">&#39;number&#39;</span><span class="op">,</span> []<span class="op">,</span> [])<span class="op">;</span></code></pre></div>
+<h2 id="compile">Compile</h2>
+<pre><code>rustc --target asmjs-unknown-emscripten call-into-lib.rs</code></pre>
+<h2 id="run">Run</h2>
+<pre><code>$ node wrapper.js
+Hello World!
+result:  42
+
+Hello World!</code></pre>
+
+        <p><a href="../">Go back to the overview</a></p>
+        <footer> 
+          <div>
+            made by <a href="https://fnordig.de/">badboy_</a>, this is not an official <a href="https://www.rust-lang.org/">Rust</a> project.
+          </div>
+        </footer>
+    </div>
+  </body>
+</html>
+

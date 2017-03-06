@@ -1,0 +1,706 @@
+<!DOCTYPE html
+<html>
+  <head>
+    <title>Hire me for the JS, keep me for the Rust</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="public/custom.css" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, less-space, title-bg, title
+
+# Hire me for the JS,<br> keep me for the Rust
+
+[![](media/rust-belt-rust.jpg)](http://www.rust-belt-rust.com/)
+
+### 2016-10-27
+### Jan-Erik Rediger — [@badboy_](https://twitter.com/badboy_)
+
+???
+
+Hey, I'm here to tell you a bit about how we can use Rust in fields you wouldn't even expect.
+You're here, so actually you might expect these fields.
+
+
+---
+class: center, middle, less-space, introduction
+
+<div id="my-name">
+  <img src='media/badboy.jpg' alt='me' />
+  <h2>Jan-Erik Rediger</h2>
+  <h3><a href="https://twitter.com/badboy_">@badboy_</a></h3>
+</div>
+
+<div id="info">
+  <ul>
+    <li>Student</li>
+    <li>Software Developer</li>
+    <li>Mozilla TechSpeaker</li>
+    <li>Project Maintainer</li>
+    <li>Community Team Member</li>
+    <li>Meetup Organizer</li>
+    <li>RustFest Organizer</li>
+  </ul>
+
+  <div id="logos">
+    <img src='media/rustfest-logo.svg' alt='RustFest' id="rustfest-logo" />
+    <img src='media/rrbone.png' alt='rrbone' />
+  </div>
+</div>
+
+???
+first a bit about me
+
+I tend to be a busy person.
+I'm skipping some classes at university to be here.
+
+Apart form that I am normally also a software developer as well as open source enthusiast.
+
+I'm using Rust for a little bit over 2 years now, after being frustrasted with a large C++ project.
+Rust promised to be better.
+Since then I stuck with it, released a dozen of crates, organized meetups and the recent first European Rust conference, RustFest in Berlin
+
+---
+class: worldmap
+background-image: url(media/Germany_location_arrow.svg)
+
+# Aachen, Germany
+
+???
+
+I'm from this little town called Aachen, 
+far in the west of Germany, right next to the Netherlands and Belgium.
+
+Which is nice, because you get to have nice dutch or belgian fries.
+
+---
+class: gif
+background-image: url(media/Kraeuterprinten_1.jpg)
+
+# Printen
+
+???
+
+We also have this Lebkuchen-like pastry called Printen.
+
+I even brought some, these are "Kräuterprinten" 
+
+Please grab some.
+
+Non-hungry people are easier to talk to ;)
+
+---
+class: gif
+background-image: url(media/js.jpg)
+
+???
+
+Ok, with that out of the way, let's get to the topic.
+
+When I began with Rust, I wanted a replacement for C++.
+But I actually come from a background of web development. Both on the backend and frontend.
+So other things are far better known to me.
+
+Like JavaScript.
+
+In the beginning, even a bit before my time, all there was was HTML. 
+Only in 1995 JavaScript came to be.
+It was used to make sites all a bit more dynamic.
+Handle user interaction, enhance the website usage by modifying or extending the content.
+
+This core idea still floats around.
+
+It was really simple in the beginning and maybe a bit slow.
+JavaScript was a purely interpreted language.
+We all know that's ok, but not the fastest approach.
+
+People tend to use it more and more and the JavaScript engines embedded into browsers had to cope with it.
+So they got better. And faster.
+
+Today we have highly specialized JavaScript engines like v8 and SpiderMonkey, with JIT compilation or maybe even AOT-Compilation.
+
+People started to getting annoyed of JavaScript, 
+but it was still the only language that was widely available in browsers.
+Sure, we had Flash or Java-Applets. But these were still addons.
+
+People wanted to use other languages and by the lack of availability, they took what they had and compiled it to JavaScript.
+This way it could run in the browser.
+
+Google mit GWT: Java (2006)
+
+2008/2009 v8/TraceMonkey
+
+---
+class: center, middle, imgnormal
+
+![Emscripten](media/emscripten-logo.png)
+
+## LLVM to JavaScript compiler
+
+## Run C on the web at near-native speed
+
+???
+
+Slightly later, in 2010 Emscripten came to be.
+
+Take your C or C++ code, run it through LLVM,
+take this output and compile it to some low-level JavaScript.
+
+This allowed to run your boring old C code _in the browser_
+at near-native speed.
+
+---
+class: gif
+background-image: url(media/why.gif)
+
+???
+
+You now all have that one question: why?
+
+---
+class: center, middle
+
+# Compile to the web
+
+### JS is standards-based, runs everywhere
+### Avoid high cost of porting code
+### Reuse existing native libraries
+
+???
+
+Well, JavaScript is a standard. 
+It works everywhere.
+From your smartphone all to your server.
+You don't have to think about the distribution. 
+If there's a browser, it has JavaScript.
+
+Using this approach it is possible to avoid the effort to port your huge project into JavaScript.
+Just recompile it.
+
+And of course it is now possible to re-use existing libraries.
+Just recently I saw the Tesseract.js project.
+It took the OCR library tesseract, compiled it to JavaScript and now we have great OCR in the browser.
+
+---
+class: center, middle
+
+# [asm.js](http://asmjs.org/)
+
+## a subset of JavaScript
+
+???
+
+Now the thing with Emscripten is, the JavaScript it spits out is far from readable.
+It uses a lot of tricks to make it fast and efficient.
+The advantage: it still is just JavaScript, every browser should be able to execute it.
+
+However, the tricks it uses can now be detected by browsers to make it even more efficient.
+JavaScript engines can optimize this code.
+
+So from what Emscripten did people went a bit further and wrote a specification of the things Emscripten did.
+
+It's called asm.js.
+It's still a subset of JavaScript, but Engines know it and can genereate more efficient runtime code.
+Or apply things like AOT compilation.
+
+
+---
+class: center, middle, twitter
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">asm.js code is very simple and low-level, and as a result easy</p>&mdash; Horse JS (@horse_js) <a href="https://twitter.com/horse_js/status/575000441177550848">March 9, 2015</a></blockquote>
+
+???
+
+So if asm.js is a subset of JavaScript, it is simple and easy, right?
+
+---
+class: middle, code, big
+
+# (Implicitely) typed
+
+```javascript
+function add(x, y) {
+  x = x|0;
+  y = y|0;
+  return (x + y)|0;
+}
+```
+
+???
+
+JavaScript has only some basic types: 
+numbers, which are actually floats,
+strings,
+and objects. 
+
+This doesn't give us a lot of safety.
+The specification of asm.js however _has_ types
+
+A binary or of a number with zero shouldn't change its value.
+The addition of two values, then binary-ored with zero shouldn't change the result.
+
+---
+class: middle, code, big
+
+# (Implicitely) typed
+
+```javascript
+function add(x, y) {
+* x = x|0; // 32-bit value
+  y = y|0;
+  return (x + y)|0;
+}
+```
+
+???
+
+However, it can change its type.
+Binary or only makes sense with an integer. 
+So whatever is the result of this operation can only be an integer.
+
+This is how in asm.js you specify the type. Binary-Or always means an integer.
+
+Engines that do understand asm.js can pick this up, turn the values into 32-bit
+integers and perform the same assembly instruction you would get if that
+function would have been written in C.
+
+Firefox's JavaScript engine is specialized and even has a AoT compilation mode if it detects asm.js code
+
+---
+class: middle, code, big
+
+# Emulated heap
+
+```c
+size_t strlen(char *ptr) {
+  char *curr = ptr;
+  while (*curr != 0) {
+    curr++;
+  }
+  return (curr - ptr);
+}
+```
+
+???
+
+The memory model of languages like C, C++ and even Rust rely on a simple concept:
+Memory can be addressed by pointers.
+And you can do wild pointer arithmetic pointing _anywhere_
+
+For example a simple string length function in C would just count the bytes between the start of the pointer and the first nul byte in the string.
+Easy to do with pointer arithmetic.
+
+---
+class: middle, code, big
+
+# Emulated heap
+
+```javascript
+function strlen(ptr) {
+  ptr = ptr|0;
+  var curr = 0;
+  curr = ptr;
+  while (HEAP8[curr]|0 != 0) {
+    curr = (curr + 1)|0;
+  }
+  return (curr - ptr)|0;
+}
+```
+
+???
+
+JavaScript does not have pointers.
+But it can be emulated.
+
+Just take a typed array, HEAP8 in that example 
+and the pointers are just numeric offsets into that array.
+
+This way even code that allocates can be translated into JavaScript.
+Additionally this completely avoids the garbage collector.
+
+JavaScript sees no garbage, only one large array that's always in use.
+Of course this means short small programs have quite some overhead,
+but long-running ones don't!
+
+---
+class: center, middle
+
+# [WebAssembly](https://webassembly.github.io/)
+
+## a new portable, size- and load-time-efficient format suitable for compilation to the web.
+
+
+???
+
+New Target: WebAssembly.
+
+a new portable, size- and load-time-efficient format suitable for compilation to the web.
+
+that's a lot, let's break it down
+
+---
+class: center, middle
+
+# [WebAssembly](https://webassembly.github.io/)
+
+## a new <span style="visibility:hidden">portable, size- and load-time-efficient</span> format suitable for compilation to the web.
+
+???
+
+a new format suitable for compilation to the web.
+
+so a new format, that ever browser should understand.
+We did have such things already: Flash, Java and other Plugins
+
+So what's better this time?
+All major browser vendors are part of the working group.
+They explicitely don't want a replacement for JavaScript.
+They want something that can happily live side-by-side
+
+---
+class: center, middle, twitter
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">I ❤️ some hypothetical future WebAssembly</p>&mdash; Horse WebAssembly (@horse_wasm) <a href="https://twitter.com/horse_wasm/status/753362742115835904">July 13, 2016</a></blockquote>
+
+???
+
+The working group of WebAssembly is just one year old.
+They already reached some ambitious goals like a PoC in Chrome and Firefox.
+If you enable it.
+
+---
+class: middle, code, increased
+
+# Abstract Syntax Tree
+
+```lisp
+(module
+  (epxort $add "add" $add)
+  (func $add (param $x i32) (param $y i32)
+             (result i32)
+    (i32.add
+      (get_local $x)
+      (get_local $y)
+    )
+  )
+)
+```
+
+.footnote[\* might be out-of-date now]
+
+???
+
+The first version of WebAssembly defined the format as a AST with a text representation using S-expressions
+
+---
+class: center, middle, twitter
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Soon everyone will write Lisp like it&#39;s assembly.<br>Well, webassembly, but still.<br><br>(from <a href="https://t.co/J4k2KJEZTp">https://t.co/J4k2KJEZTp</a>) <a href="https://t.co/TFoCLYuE3G">pic.twitter.com/TFoCLYuE3G</a></p>&mdash; intish|0 (@badboy_) <a href="https://twitter.com/badboy_/status/661172038514704388">November 2, 2015</a></blockquote>
+
+???
+
+So yeah, how about we all write a bit of Lisp again?
+
+---
+class: center, middle
+
+# Wasm
+
+## a binary format (of the AST)
+## fast to parse
+## native support in Chrome & Firefox *
+
+.footnote[\* experimental]
+
+???
+
+But the text format of WebAssembly is only one part.
+The more important part is actually the binary format.
+
+It should be small, fast to parse & compressable
+Chrome & Firefox have parsers & execution engines for this format.
+
+---
+class: gif
+background-image: url(media/why2.gif)
+
+???
+
+So again: why?
+
+Why not?
+
+---
+class: center, middle
+
+# Why WebAssembly
+
+## faster decoding than JavaScript (up to 20×)
+## less restrictions than asm.js
+## thread & SIMD support *
+
+.footnote[\* planned]
+
+???
+
+Benchmarks show that decoding this is a lot faster. Roughly 20 times as fast.
+
+It also is not bound to JavaScript semantics anymore.
+
+This makes it easier to lay threading & SIMD support on top
+Both is planned for stage 2 of WebAssembly.
+
+---
+class: center, middle
+
+# The story with Rust
+
+## It worked once *
+
+.footnote[\* It was hacky]
+
+???
+
+So, we now kknow emscripten, asm.js and WebAssembly.
+Let's talk about Rust.
+
+In Rust compiling to JavaScript using Emscripten worked once, but it was hacky, required to patch & compile 
+the compiler.
+
+Emscripten uses its own fork of LLVM. 
+It did not upstream these changes and it diverged a bit from the main project.
+
+So bringing it all back together is a bit hard.
+
+---
+class: center, middle, huge, gif, finally
+background-image: url(media/yes-finally2.gif)
+
+# [#34743](https://github.com/rust-lang/rust/pull/34743)
+
+???
+
+To actually get Emscripten support in Rust,
+we first needed a common base, meaning we had to upgrade the used LLVM to 3.9
+
+After only 167 comments, 33 commits, 22 changed files, a dozen buildbot runs and 5 bors retries,
+we managed to get this merged.
+
+Now both Rust and Emscripten were on something that's more like LLVM 3.9
+
+---
+class: center, middle, gif, doh
+background-image: url(media/doh.gif)
+
+# [Only 10 more steps](https://gist.github.com/badboy/5b905e71cf41a83724da9f96ee14b5fe)
+
+???
+
+With that upgrade it were only about 10 more steps to get a working compiler.
+Some changes to rustc were still necessary, and a up2date version of emscripten had to be installed.
+
+it got us closer
+
+---
+class:
+
+# [#36339: Working asmjs and wasm targets](https://github.com/rust-lang/rust/pull/36339)
+
+## Merged Emscripten's LLVM additions
+## Ignores a lot of tests
+## Wasm through asm.js
+
+???
+
+Then brson moved this work further along
+
+He managed to merge a minimal compatibility patch of LLVM, 
+that makes it possible to create the right target machines and spit out LLVM IR that Emscripten understands.
+
+He also fixed or ignored a lot of tests.
+
+And while on it he also added a WebAssembly target.
+
+---
+class: center, middle, gif, doh
+background-image: url(media/bear-and-moon.gif)
+
+# Only 5 more steps
+
+
+.footnote[\* rustup gets you the standard library]
+
+???
+
+So now only 5 more steps left
+
+And since some nightly versions, Rustup does all the hard part of installing the standard library
+
+---
+class: center, middle
+
+# Rust to Wasm
+
+## Remember MIR?
+
+???
+
+So now we have a working Rust-to-JavaScript compiler and a WebAssembly target.
+
+But there's also another approach.
+
+Remember MIR?
+
+that's the new Intermediate Representation of Rust
+
+---
+class: center, middle
+
+# Rust to Wasm
+
+## New backend for rustc
+## In parallel to other efforts
+## works today: [mir2wasm](https://github.com/brson/mir2wasm)
+
+???
+
+With this change it is possible to create a new backend for rustc 
+that takes MIR and compiles it directly to WebAssembly.
+
+Completely bypassing LLVM and Emscripten.
+
+This is done in mir2wasm, a project based on the ideas of the MIR-Interpreter miri.
+It re-uses an existing WebAssembly compiler and spits out working webassembly code.
+
+---
+class: middle, code, increased
+
+## Rust
+
+```rust
+fn add(x: i32, y: i32) -> i32 {
+    x + y
+}
+```
+
+???
+
+So given this small snippet of Rust code, a simple addition, 
+we want to compile that to WebAssembly
+
+---
+class: middle, code
+
+## MIR
+
+```rust
+fn add(arg0: i32, arg1: i32) -> i32 {
+    scope 1 {
+        let var0: i32;            // "x" in scope 1 at fact.rs:2:12: 2:13
+        let var1: i32;            // "y" in scope 1 at fact.rs:2:20: 2:21
+    }
+    let mut tmp0: i32;
+    let mut tmp1: i32;
+
+    bb0: {
+        var0 = arg0;              // scope 0 at fact.rs:2:12: 2:13
+        var1 = arg1;              // scope 0 at fact.rs:2:20: 2:21
+        tmp0 = var0;              // scope 1 at fact.rs:3:5: 3:6
+        tmp1 = var1;              // scope 1 at fact.rs:3:9: 3:10
+        return = Add(tmp0, tmp1); // scope 1 at fact.rs:3:5: 3:10
+        goto -> bb1;              // scope 1 at fact.rs:2:1: 4:2
+    }
+
+    bb1: {
+        return;                   // scope 1 at fact.rs:2:1: 4:2
+    }
+}
+```
+
+.footnote[rustc -Z unstable-options --unpretty mir -O add.rs]
+
+???
+
+First step: translate it to MIR.
+Gets a bit more complex, but we can still see the operation: Addition of tmp0 and tmp1
+
+---
+class: middle, code, increased
+
+## Wast
+
+```lisp
+(func $add (type $rustfn-0-2)
+           (param $0 i32) (param $1 i32)
+           (result i32)
+  (i32.add
+    (get_local $0)
+    (get_local $1)
+  )
+)
+```
+
+???
+
+mir2wasm takes this and now translates it into WebAssembly.
+The text representation looks like this.
+
+So that works as well!
+
+---
+class: center, middle, huge
+
+# Demo time
+
+???
+
+With all of that explained, it's now time for some demos!
+
+---
+class: center, middle
+
+# [SHA1 Example](http://www.hellorust.com/emscripten/sha1/)
+
+---
+class: center, middle
+
+# [Teapot Example](http://www.hellorust.com/emscripten/teapot/)
+
+---
+class: middle, center
+
+# [Wasm Example](http://www.hellorust.com/emscripten/wasm-fact/)
+
+---
+class: middle, center
+
+# Questions?
+
+## [www.hellorust.com/emscripten](http://www.hellorust.com/emscripten/)
+
+???
+
+I'm nearly done with talking, but of course I still have material to get you all started with Rust.
+
+And I'm happy to answer questions.
+
+---
+class: center, middle, title
+
+# Thank you!
+
+[![](media/rust-belt-rust.jpg)](http://www.rust-belt-rust.com/)
+
+### Jan-Erik Rediger — [@badboy_](https://twitter.com/badboy_)
+  </textarea>
+    <script src="public/remark.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+        highlightLanguage: "no-highlight"
+      });
+    </script>
+    <!--<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>-->
+  </body>
+</html>

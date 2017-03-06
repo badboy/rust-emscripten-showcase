@@ -44,3 +44,9 @@ button {
 #no-wasm-warning a {
   color: black;
 }
+ol {
+  font-size: 2em;
+}
+.hack ol li {
+  padding-left: 30px;
+}

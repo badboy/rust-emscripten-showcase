@@ -1,0 +1,151 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900);
+
+.remark-notes p {
+  font-size: 1.5em;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.remark-slide-content {
+  background-color: white;
+  color: black;
+  padding: 1em 1em 1em 1em;
+}
+
+.remark-slide-content h1 {
+  font-size: 4em;
+}
+
+.title-bg {
+  background-color: white;
+  color: black;
+  /*font-family: 'Comic Neue';*/
+}
+.title-bg a:visited, .dark-bg a:active, .dark-bg a {
+  color: black;
+}
+
+.worldmap img {
+  height: 650px;
+}
+
+code {
+  background-color: #4e4e4e;
+  color: #e6e6e6;
+  padding: 15px;
+}
+
+.huge h1 {
+  font-size: 8em;
+}
+.huge code {
+  font-size: 4em;
+}
+.large code {
+  font-size: 3em;
+}
+.big code {
+  font-size: 2em;
+}
+.increased code {
+  font-size: 1.25em;
+}
+
+li > code {
+  background-color: none;
+  padding: 0;
+}
+
+a:visited, a:active, a {
+  color: black;
+  text-decoration: none;
+}
+
+.less-space h3 {
+  margin: 0;
+}
+
+img {
+  width: 100%;
+}
+.imgnormal img {
+  width: auto;
+}
+
+.gif {
+  background-size: 100%;
+}
+
+.title img {
+  width: 30%;
+}
+
+.introduction #my-name {
+  float: left;
+  width: 49%;
+  display: inline-block;
+}
+
+.introduction #info {
+  float: right;
+  width: 49%;
+  display: inline-block;
+  text-align: left;
+  font-size: 1.7em;
+  margin: 0;
+  padding: 0;
+}
+
+.introduction ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  padding-left: 40px;
+}
+.introduction li {
+  padding: 5px;
+}
+.introduction #logos {
+  margin-top: 100px;
+  text-align: center;
+}
+.introduction #logos img {
+  width: 40%;
+}
+#logos #rustfest-logo {
+  width: 25%;
+  margin-right: 20px;
+}
+
+twitterwidget {
+  margin: auto;
+}
+
+
+.footnote {
+  font-size: 1.0em;
+  padding: 5px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: white;
+}
+
+.doh h1, .doh a {
+  color: white;
+}
+.doh h1 {
+  position: absolute;
+  margin: 120px 100px;
+}
+.finally h1, .finally a {
+  color: red;
+}
+.finally h1 {
+  position: absolute;
+  margin: 100px 150px;
+}
